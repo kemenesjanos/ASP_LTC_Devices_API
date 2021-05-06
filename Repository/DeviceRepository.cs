@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repository
 {
-    class DeviceRepository : IRepository<Device>
+    public class DeviceRepository : IRepository<Device>
     {
         DeviceContext context = new DeviceContext();
         public void Add(Device item)

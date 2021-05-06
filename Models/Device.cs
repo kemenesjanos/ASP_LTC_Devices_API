@@ -17,6 +17,7 @@ namespace Models
         public virtual ICollection<Method> Methods { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
         public DescriptionTabData DescriptionTabData { get; set; }
+        public string UserName { get; set; }
 
         public Device()
         {

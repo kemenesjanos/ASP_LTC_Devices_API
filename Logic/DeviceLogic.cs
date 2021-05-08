@@ -43,27 +43,13 @@ namespace Logic
             DeviceRepo.Update(uid, newitem);
         }
 
-        //non-crud methods/properties
+        public void CopyDevice(string copyId)
+        {
+            Device newDev = DeviceRepo.Read(copyId);
+            newDev.Id = Guid.NewGuid().ToString();
+            DeviceRepo.Add(newDev);
+        }
 
-        //public double AVGVideosCount
-        //{
-        //    get
-        //    {
-        //        return GetAllDevice().Average(t => t.Videos.Count());
-        //    }
-        //}
-
-        //public void AddVideoToDevice(Video video, string DeviceId)
-        //{
-        //    GetDevice(DeviceId).Videos.Add(video);
-        //    DeviceRepo.Save();
-        //}
-        //public void RemoveVideoFromDevice(Video video, string DeviceId)
-        //{
-        //    GetDevice(DeviceId).Videos.Remove(video);
-        //    videoRepo.Delete(video.Uid);
-        //    DeviceRepo.Save();
-        //}
 
         public void FillDbWithSamples()
         {
@@ -77,11 +63,14 @@ namespace Logic
             Device d1 = new Device() { Type = deviceType.I2C, DescriptionTabData = new DescriptionTabData() {Description="Display.", ShortDescription="Disp", Name="Display", Example="alma"} };
             Device d2 = new Device() { Type = deviceType.Switch, DescriptionTabData = new DescriptionTabData() { Description = "Switch.", ShortDescription = "switch", Name = "Switch", Example = "körte" } };
 
-            GetDevice(d1.Id).Methods.Add(m1);
-            GetDevice(d1.Id).Methods.Add(m2);
-            GetDevice(d2.Id).Methods.Add(m3);
-            GetDevice(d2.Id).Properties.Add(p1);
-            GetDevice(d2.Id).Properties.Add(p2);
+            d1.Methods.Add(m1);
+            d1.Methods.Add(m2);
+            d2.Methods.Add(m3);
+            d2.Properties.Add(p1);
+            d2.Properties.Add(p2);
+
+            AddDevice(d1);
+            AddDevice(d2);
 
             DeviceRepo.Save();
 

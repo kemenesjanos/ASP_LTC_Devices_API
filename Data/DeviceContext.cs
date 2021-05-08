@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 
 namespace Data
 {
-    public class DeviceContext : DbContext
+    public class DeviceContext : IdentityDbContext<IdentityUser>
     {
         public DeviceContext(DbContextOptions<DeviceContext> opt) : base(opt)
         {
@@ -23,7 +24,7 @@ namespace Data
             {
                 optionsBuilder.
                     UseLazyLoadingProxies().
-                    UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=DeviceDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=DeviceDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -58,8 +59,8 @@ namespace Data
                 SecurityStamp = string.Empty
             };
 
-            appUser.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "titok");
-            appUser2.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "jelszo");
+            appUser.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Almafa123!");
+            appUser2.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Almafa123!");
 
 
             modelBuilder.Entity<IdentityUser>().HasData(appUser);
@@ -93,10 +94,17 @@ namespace Data
                 .WithMany(device => device.Properties)
                 .HasForeignKey(property => property.DeviceUid);
             });
+
+            modelBuilder.Entity<Device>(entity =>
+            {
+                entity.HasOne(device => device.DescriptionTabData);
+            });
         }
 
         public DbSet<Method> Methods { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Device> Devices { get; set; }
+
+        public DbSet<DescriptionTabData> DescriptionTabDatas { get; set; }
     }
 }

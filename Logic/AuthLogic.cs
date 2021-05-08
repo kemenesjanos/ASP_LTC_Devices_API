@@ -35,10 +35,12 @@ namespace Logic
                 UserName = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
+            
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Customer");
+                
             }
             return user.UserName;
         }

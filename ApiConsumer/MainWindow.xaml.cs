@@ -26,7 +26,7 @@ namespace ApiConsumer
         {
             InitializeComponent();
 
-            Login().Wait();
+            Login();
         }
 
         public async Task Login()
@@ -41,7 +41,8 @@ namespace ApiConsumer
                     Password = pw.Password
                 });
                 token = tvm.Token;
-                GetPlayListNames().Wait();
+                
+                GetPlayLists();
             }
             else
             {
@@ -49,7 +50,7 @@ namespace ApiConsumer
             }
         }
 
-        public async Task GetPlayListNames()
+        public async Task GetPlayLists()
         {
             cbox.ItemsSource = null;
             RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
@@ -58,21 +59,22 @@ namespace ApiConsumer
 
             cbox.ItemsSource = devices;
             cbox.SelectedIndex = 0;
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Video newvideo = new Video()
-            {
-                Title = tb_title.Text,
-                YoutubeId = tb_youtube.Text,
-                Rating = 5,
-                PlayListUid = (cbox.SelectedItem as Playlist).UID
-            };
+            //Video newvideo = new Video()
+            //{
+            //    Title = tb_title.Text,
+            //    YoutubeId = tb_youtube.Text,
+            //    Rating = 5,
+            //    PlayListUid = (cbox.SelectedItem as Playlist).UID
+            //};
 
-            RestService restservice = new RestService("https://localhost:7766/", "/Video", token);
-            restservice.Post(newvideo);
-            GetPlayListNames().Wait();
+            //RestService restservice = new RestService("https://localhost:7766/", "/Video", token);
+            //restservice.Post(newvideo);
+            //GetPlayListNames().Wait();
         }
     }
 }

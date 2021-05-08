@@ -16,13 +16,14 @@ namespace Models
         public deviceType Type { get; set; }
         public virtual ICollection<Method> Methods { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
-        public DescriptionTabData DescriptionTabData { get; set; }
+        public virtual DescriptionTabData DescriptionTabData { get; set; }
         public string UserName { get; set; }
 
         public Device()
         {
             this.Methods = new List<Method>();
             this.Properties = new List<Property>();
+            this.DescriptionTabData = new DescriptionTabData();
         }
 
     }

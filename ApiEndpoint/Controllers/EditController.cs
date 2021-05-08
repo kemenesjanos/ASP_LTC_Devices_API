@@ -24,17 +24,5 @@ namespace ApiEndpoint.Controllers
         {
             dlogic.FillDbWithSamples();
         }
-
-
-        //[Authorize(Roles = "Admin")]
-        //TODO: ellenőrizni
-        [HttpDelete]
-        public void RemoveDevice([FromBody] string devUid)
-        {
-            if (User.Identity.Name == "alma" || User.IsInRole("Admin"))
-            {
-                dlogic.DeleteDevice(devUid);
-            }
-        }
     }
 }

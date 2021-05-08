@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{79DDC98C-22A7-47FE-A19C-390C93B0E970}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{AFBB96BB-0952-475C-9281-A9FF08CFCECC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{2114716C-6CFF-42F6-B5F7-14942CEBC6D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{0FC13E44-DED0-46C7-B8E6-02ACA27B128B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{0FC13E44-DED0-46C7-B8E6-02ACA27B128B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiEndpoint", "ApiEndpoint\ApiEndpoint.csproj", "{403B83FC-798A-4485-B3DE-9A282AA9DC60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiEndpoint", "ApiEndpoint\ApiEndpoint.csproj", "{403B83FC-798A-4485-B3DE-9A282AA9DC60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiConsumer", "ApiConsumer\ApiConsumer.csproj", "{0A2D96F6-5C64-4B9A-BA84-F90F5156BA18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiConsumer", "ApiConsumer\ApiConsumer.csproj", "{0A2D96F6-5C64-4B9A-BA84-F90F5156BA18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{09BBC1A8-A0F5-421D-890C-0DDF70256000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{79DDC98C-22A7-47FE-A19C-390C93B0E970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79DDC98C-22A7-47FE-A19C-390C93B0E970}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79DDC98C-22A7-47FE-A19C-390C93B0E970}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79DDC98C-22A7-47FE-A19C-390C93B0E970}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AFBB96BB-0952-475C-9281-A9FF08CFCECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AFBB96BB-0952-475C-9281-A9FF08CFCECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFBB96BB-0952-475C-9281-A9FF08CFCECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{0A2D96F6-5C64-4B9A-BA84-F90F5156BA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A2D96F6-5C64-4B9A-BA84-F90F5156BA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A2D96F6-5C64-4B9A-BA84-F90F5156BA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BBC1A8-A0F5-421D-890C-0DDF70256000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BBC1A8-A0F5-421D-890C-0DDF70256000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BBC1A8-A0F5-421D-890C-0DDF70256000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BBC1A8-A0F5-421D-890C-0DDF70256000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

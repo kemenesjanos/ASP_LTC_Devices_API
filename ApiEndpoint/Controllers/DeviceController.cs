@@ -60,5 +60,11 @@ namespace ApiEndpoint.Controllers
             }
         }
 
+        [HttpPut("{copyId}")]
+        public void CopyDevice(string copyId)
+        {
+            logic.CopyDevice(copyId);
+        }
+
     }
 }

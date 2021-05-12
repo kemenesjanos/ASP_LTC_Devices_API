@@ -21,6 +21,8 @@ namespace ApiConsumer
 
         public string Password { get; set; }
 
+        public bool IsRegist { get; set; }
+
         public PasswordWindow()
         {
             InitializeComponent();
@@ -30,6 +32,15 @@ namespace ApiConsumer
         {
             UserName = tb_username.Text;
             Password = tb_pass.Password;
+            IsRegist = false;
+            this.DialogResult = true;
+        }
+
+        private void Button_Click_Regist(object sender, RoutedEventArgs e)
+        {
+            UserName = tb_username.Text;
+            Password = tb_pass.Password;
+            IsRegist = true;
             this.DialogResult = true;
         }
     }

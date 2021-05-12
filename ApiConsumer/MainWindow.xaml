@@ -6,13 +6,34 @@
         xmlns:local="clr-namespace:ApiConsumer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ComboBox x:Name="cbox" HorizontalAlignment="Left" Margin="40,32,0,0" VerticalAlignment="Top" Width="540" Height="40">
-            <ComboBox.ItemTemplate>
+    <Grid x:Name="GridLayout" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "180" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "75" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="0" Grid.Column="0" Name = "listbox" Margin = "20,20,20,30" SelectedValue="Click_Item">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding DescriptionTabData.Name}" />
                 </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+            <Button Content="Add Device" Margin="2" Click="Button_Click_AddDevice"/>
+            <Button Content="Remove Device" Margin="2" Click="Button_Click_RemoveDevice"/>
+            <Button Content="Copy Device" Margin="2" Click="Button_Click_CopyDevice"/>
+        </StackPanel>
+
+        
+
+        <Button Grid.Row="1" Grid.Column="1" Content="Login / Regist" Margin="5" Click="Button_Click_BackToLogin"/>
+
     </Grid>
 </Window>

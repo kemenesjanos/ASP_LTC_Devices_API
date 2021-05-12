@@ -22,6 +22,7 @@ namespace ApiConsumer
     public partial class MainWindow : Window
     {
         private string token;
+        private List<Device> devices = new List<Device>();
         public MainWindow()
         {
             InitializeComponent();
@@ -35,30 +36,43 @@ namespace ApiConsumer
             if (pw.ShowDialog() == true)
             {
                 RestService restservice = new RestService("https://localhost:7766/", "/Auth");
-                TokenViewModel tvm = await restservice.Put<TokenViewModel, LoginViewModel>(new LoginViewModel()
+                TokenViewModel tvm;
+                if (pw.IsRegist)
+                {
+                    await restservice.Post<TokenViewModel, RegisterViewModel>(new RegisterViewModel()
+                    {
+                        Email = pw.UserName,
+                        Password = pw.Password
+                    });
+
+                }
+
+                tvm = await restservice.Put<TokenViewModel, LoginViewModel>(new LoginViewModel()
                 {
                     Username = pw.UserName,
                     Password = pw.Password
                 });
+
                 token = tvm.Token;
-                
-                GetPlayLists();
+
+                GetDevices();
             }
             else
             {
                 this.Close();
             }
         }
+        
 
-        public async Task GetPlayLists()
+        public async Task GetDevices()
         {
-            cbox.ItemsSource = null;
+            listbox.ItemsSource = null;
             RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
-            IEnumerable<Device> devices =
+            devices =
                 await restservice.Get<Device>();
 
-            cbox.ItemsSource = devices;
-            cbox.SelectedIndex = 0;
+            listbox.ItemsSource = devices.AsEnumerable();
+            listbox.SelectedIndex = 0;
             
         }
 
@@ -75,6 +89,43 @@ namespace ApiConsumer
             //RestService restservice = new RestService("https://localhost:7766/", "/Video", token);
             //restservice.Post(newvideo);
             //GetPlayListNames().Wait();
+        }
+
+        private void Click_Item(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click_BackToLogin(object sender, RoutedEventArgs e)
+        {
+            Login();
+        }
+
+        private void Button_Click_AddDevice(object sender, RoutedEventArgs e)
+        {
+            Device newDevice = new Device()
+            {
+                DescriptionTabData = new DescriptionTabData() { Name = "New Device" }
+            };
+
+            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
+            restservice.Post(newDevice);
+            GetDevices();
+        }
+
+        private void Button_Click_RemoveDevice(object sender, RoutedEventArgs e)
+        {
+
+            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
+            restservice.Delete(devices[listbox.SelectedIndex].Id);
+            GetDevices();
+        }
+        private void Button_Click_CopyDevice(object sender, RoutedEventArgs e)
+        {
+
+            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
+            restservice.Put(devices[listbox.SelectedIndex].Id);
+            GetDevices();
         }
     }
 }

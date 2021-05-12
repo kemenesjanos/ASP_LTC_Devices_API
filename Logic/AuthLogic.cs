@@ -29,6 +29,7 @@ namespace Logic
 
         public async Task<string> RegisterUser(RegisterViewModel model)
         {
+            Console.WriteLine("Regist");
             var user = new IdentityUser
             {
                 Email = model.Email,
@@ -47,6 +48,7 @@ namespace Logic
 
         public async Task<TokenViewModel> LoginUser(LoginViewModel model)
         {
+            Console.WriteLine("Login");
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {

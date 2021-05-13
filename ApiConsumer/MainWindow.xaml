@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ApiConsumer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid x:Name="GridLayout" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width = "180" />

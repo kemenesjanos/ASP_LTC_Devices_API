@@ -26,10 +26,8 @@ namespace ApiEndpoint.Controllers
         [HttpDelete("{uid}")]
         public void DeleteDevice(string uid)
         {
-            if(User.Identity.Name == logic.GetDevice(uid).UserName || User.IsInRole("Admin"))
-            {
-                logic.DeleteDevice(uid);
-            }
+            //TODO: User kezelés
+            logic.DeleteDevice(uid);
         }
 
         [HttpGet("{uid}")]
@@ -47,23 +45,23 @@ namespace ApiEndpoint.Controllers
         [HttpPost]
         public void AddDevice([FromBody] Device item)
         {
-            item.UserName = User.Identity.Name;
+            Console.WriteLine(User.Identity.Name);
             logic.AddDevice(item);
+            
         }
 
         [HttpPut("{oldid}")]
         public void UpdateDevice(string oldid, [FromBody] Device item)
         {
-            if (User.Identity.Name == logic.GetDevice(oldid).UserName || User.IsInRole("Admin"))
+            if (Contains(oldid))
             {
                 logic.UpdateDevice(oldid, item);
             }
         }
 
-        [HttpPut("{copyId}")]
-        public void CopyDevice(string copyId)
+        public bool Contains(string id)
         {
-            logic.CopyDevice(copyId);
+            return logic.Contains(id);
         }
 
     }

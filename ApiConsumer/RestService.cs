@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -28,14 +29,15 @@ namespace ApiConsumer
             this.endpoint = endpoint;
         }
 
-        public async Task<List<T>> Get<T>()
+        public async Task<IEnumerable<T>> Get<T>()
         {
-            List<T> items = new List<T>();
+            IEnumerable<T> items = new List<T>();
+
             HttpResponseMessage response = await
                 client.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
-                items = await response.Content.ReadAsAsync<List<T>>();
+                items = await response.Content.ReadAsAsync<IEnumerable<T>>();
             }
             return items;
         }
@@ -70,7 +72,7 @@ namespace ApiConsumer
             return response.Headers;
         }
 
-        public async void Post<T>(T item)
+        public async Task Post<T>(T item)
         {
             HttpResponseMessage response =
                 await client.PostAsJsonAsync(endpoint, item);
@@ -87,7 +89,7 @@ namespace ApiConsumer
             return await response.Content.ReadAsAsync<R>();
         }
 
-        public async void Delete<K>(K id)
+        public async Task Delete<K>(K id)
         {
             HttpResponseMessage response =
                 await client.DeleteAsync(endpoint + "/" + id.ToString());

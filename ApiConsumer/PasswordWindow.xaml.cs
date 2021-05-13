@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,5 +44,6 @@ namespace ApiConsumer
             IsRegist = true;
             this.DialogResult = true;
         }
+
     }
 }

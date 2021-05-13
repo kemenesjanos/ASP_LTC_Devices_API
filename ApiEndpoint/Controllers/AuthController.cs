@@ -23,8 +23,6 @@ namespace ApiEndpoint.Controllers
         [HttpPost]
         public async Task<ActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
-            Console.WriteLine("insert");
-
             string result = await _authLogic.RegisterUser(model);
             return Ok(new { UserName = result });
         }
@@ -39,8 +37,7 @@ namespace ApiEndpoint.Controllers
 
         [HttpPut]
         public async Task<ActionResult> Login([FromBody] LoginViewModel model)
-        {
-            Console.WriteLine("itten login");   
+        { 
             try
             {
                 return Ok(await _authLogic.LoginUser(model));

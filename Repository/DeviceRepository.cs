@@ -16,6 +16,11 @@ namespace Repository
             context.SaveChanges();
         }
 
+        public bool Contains(string uid)
+        {
+            return context.Devices.Where(x => x.Id == uid).Count() == 1;
+        }
+
         public void Delete(Device item)
         {
             context.Devices.Remove(item);

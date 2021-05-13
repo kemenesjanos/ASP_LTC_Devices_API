@@ -43,13 +43,18 @@ namespace Logic
             DeviceRepo.Update(uid, newitem);
         }
 
-        public void CopyDevice(string copyId)
+        public void CopyDevice(Device copyDevice)
         {
-            Device newDev = DeviceRepo.Read(copyId);
-            newDev.Id = Guid.NewGuid().ToString();
-            DeviceRepo.Add(newDev);
+            copyDevice.Id = Guid.NewGuid().ToString();
+            copyDevice.DescriptionTabData.Name += "_copy";
+            DeviceRepo.Add(copyDevice);
         }
 
+
+        public bool Contains(string id)
+        {
+            return DeviceRepo.Contains(id);
+        }
 
         public void FillDbWithSamples()
         {

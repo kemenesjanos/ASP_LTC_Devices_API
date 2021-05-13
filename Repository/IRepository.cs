@@ -18,5 +18,7 @@ namespace Repository
         void Update(string oldid, T newitem);
 
         void Save();
+
+        bool Contains(string uid);
     }
 }

@@ -1,8 +1,11 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,11 +25,13 @@ namespace ApiConsumer
     public partial class MainWindow : Window
     {
         private string token;
-        private List<Device> devices = new List<Device>();
+        private IEnumerable<Device> devices = new List<Device>();
+        private RestService restserviceDev;
+        private string currentUserName = "";
+
         public MainWindow()
         {
             InitializeComponent();
-
             Login();
         }
 
@@ -54,6 +59,8 @@ namespace ApiConsumer
                 });
 
                 token = tvm.Token;
+                currentUserName = pw.UserName;
+                restserviceDev = new RestService("https://localhost:7766/", "/Device", token);
 
                 GetDevices();
             }
@@ -66,14 +73,12 @@ namespace ApiConsumer
 
         public async Task GetDevices()
         {
-            listbox.ItemsSource = null;
-            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
-            devices =
-                await restservice.Get<Device>();
+            devices = await restserviceDev.Get<Device>();
+            listbox.ItemsSource = devices;
 
-            listbox.ItemsSource = devices.AsEnumerable();
-            listbox.SelectedIndex = 0;
-            
+            listbox.SelectedIndex = -1;
+            listbox.Items.Refresh();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -101,31 +106,41 @@ namespace ApiConsumer
             Login();
         }
 
-        private void Button_Click_AddDevice(object sender, RoutedEventArgs e)
+        private async void Button_Click_AddDevice(object sender, RoutedEventArgs e)
         {
             Device newDevice = new Device()
             {
-                DescriptionTabData = new DescriptionTabData() { Name = "New Device" }
+                DescriptionTabData = new DescriptionTabData() { Name = "New Device" },
+                UserName = currentUserName
             };
 
-            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
-            restservice.Post(newDevice);
-            GetDevices();
+            if(token != null)
+            {
+                await restserviceDev.Post(newDevice);
+            }
+            
+            await GetDevices();
         }
 
-        private void Button_Click_RemoveDevice(object sender, RoutedEventArgs e)
+        private async void Button_Click_RemoveDevice(object sender, RoutedEventArgs e)
         {
+            
+            if (token != null && listbox.SelectedIndex != -1)
+            {
+                await restserviceDev.Delete((listbox.SelectedItem as Device).Id);
+            }
 
-            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
-            restservice.Delete(devices[listbox.SelectedIndex].Id);
-            GetDevices();
+            await GetDevices();
         }
-        private void Button_Click_CopyDevice(object sender, RoutedEventArgs e)
+        private async void Button_Click_CopyDevice(object sender, RoutedEventArgs e)
         {
+            if (token != null && listbox.SelectedIndex != -1)
+            {
+                string copyId = devices.ToList()[listbox.SelectedIndex].Id;
+                await restserviceDev.Post(copyId);
+            }
 
-            RestService restservice = new RestService("https://localhost:7766/", "/Device", token);
-            restservice.Put(devices[listbox.SelectedIndex].Id);
-            GetDevices();
+           await GetDevices();
         }
     }
 }

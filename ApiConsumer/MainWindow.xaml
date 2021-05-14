@@ -18,10 +18,11 @@
             <RowDefinition Height = "75" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" Grid.Column="0" Name = "listbox" Margin = "20,20,20,30" SelectedValue="Click_Item">
+        <ListBox Grid.Row="0" Grid.Column="0" Name = "listbox" Margin = "20,20,20,30" SelectedValue="Click_Item" SelectionChanged="listbox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding DescriptionTabData.Name}" />
+                    
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -32,9 +33,18 @@
             <Button Content="Copy Device" Margin="2" Click="Button_Click_CopyDevice"/>
         </StackPanel>
 
-        
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "100" />
+                <ColumnDefinition Width = "*" />
+                <ColumnDefinition Width = "300" />
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="Login / Regist" Margin="5" Click="Button_Click_BackToLogin" />
+            <Button Grid.Column="2" Content="SAVE" Margin="5" Click="Button_Click_Update"/>
+        </Grid>
 
-        <Button Grid.Row="1" Grid.Column="1" Content="Login / Regist" Margin="5" Click="Button_Click_BackToLogin"/>
+        
 
     </Grid>
 </Window>

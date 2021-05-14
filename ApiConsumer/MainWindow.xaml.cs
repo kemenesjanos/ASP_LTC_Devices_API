@@ -1,22 +1,9 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 namespace ApiConsumer
 {
     /// <summary>
@@ -40,7 +27,7 @@ namespace ApiConsumer
             if (pw.ShowDialog() == true)
             {
                 RestService restservice = new RestService("https://localhost:7766/", "/Auth");
-                TokenViewModel tvm;
+                TokenViewModel tvm = new TokenViewModel();
                 if (pw.IsRegist)
                 {
                     await restservice.Post<TokenViewModel, RegisterViewModel>(new RegisterViewModel()
@@ -51,16 +38,26 @@ namespace ApiConsumer
 
                 }
 
-                tvm = await restservice.Put<TokenViewModel, LoginViewModel>(new LoginViewModel()
+                try
                 {
-                    Username = pw.UserName,
-                    Password = pw.Password
-                });
+                    tvm = await restservice.Put<TokenViewModel, LoginViewModel>(new LoginViewModel()
+                    {
+                        Username = pw.UserName,
+                        Password = pw.Password
+                    });
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Login failed!");
+                    Login();
+                }
+                
 
                 token = tvm.Token;
                 restserviceDev = new RestService("https://localhost:7766/", "/Device", token);
 
-                GetDevices();
+                await GetDevices();
+
             }
             else
             {
@@ -71,32 +68,14 @@ namespace ApiConsumer
 
         public async Task GetDevices()
         {
-            devices = await restserviceDev.Get<Device>();
-            listbox.ItemsSource = devices;
+            if(token != null)
+            {
+                devices = await restserviceDev.Get<Device>();
+                listbox.ItemsSource = devices;
 
-            listbox.SelectedIndex = -1;
-            listbox.Items.Refresh();
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //Video newvideo = new Video()
-            //{
-            //    Title = tb_title.Text,
-            //    YoutubeId = tb_youtube.Text,
-            //    Rating = 5,
-            //    PlayListUid = (cbox.SelectedItem as Playlist).UID
-            //};
-
-            //RestService restservice = new RestService("https://localhost:7766/", "/Video", token);
-            //restservice.Post(newvideo);
-            //GetPlayListNames().Wait();
-        }
-
-        private void Click_Item(object sender, RoutedEventArgs e)
-        {
-            
+                listbox.SelectedIndex = -1;
+                listbox.Items.Refresh();
+            }
         }
 
         private void Button_Click_BackToLogin(object sender, RoutedEventArgs e)
@@ -139,6 +118,22 @@ namespace ApiConsumer
             }
 
            await GetDevices();
+        }
+
+        private async void Button_Click_Update(object sender, RoutedEventArgs e)
+        {
+            if (token != null && listbox.SelectedIndex != -1)
+            {
+                Device newDev = devices.ToList()[listbox.SelectedIndex];
+
+                await restserviceDev.Post(newDev);
+            }
+        }
+
+
+        private void listbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }

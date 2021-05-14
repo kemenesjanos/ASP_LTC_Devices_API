@@ -107,7 +107,7 @@ namespace ApiConsumer
             return await response.Content.ReadAsAsync<R>();
         }
 
-        public async void Put<K, T>(K id, T item)
+        public async Task Put<K, T>(K id, T item)
         {
             HttpResponseMessage response =
                 await client.PutAsJsonAsync(endpoint + "/" + id.ToString(), item);

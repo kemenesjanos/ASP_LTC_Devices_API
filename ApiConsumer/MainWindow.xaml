@@ -27,6 +27,15 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <StackPanel x:Name="dataStack" Grid.Row="0" Grid.Column="1">
+            <Label Content="Name"/>
+            <TextBox Text="{Binding Name}"/>
+            <Label Content="Description"/>
+            <TextBox Text="{Binding Description}"/>
+            <Label Content="Example"/>
+            <TextBox Text="{Binding Example}"/>
+        </StackPanel>
+
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
             <Button Content="Add Device" Margin="2" Click="Button_Click_AddDevice"/>
             <Button Content="Remove Device" Margin="2" Click="Button_Click_RemoveDevice"/>

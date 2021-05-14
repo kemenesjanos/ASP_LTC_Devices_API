@@ -14,6 +14,7 @@ namespace ApiConsumer
         private string token;
         private IEnumerable<Device> devices = new List<Device>();
         private RestService restserviceDev;
+        private DescriptionTabData actualDeviceTabData;
 
         public MainWindow()
         {
@@ -125,15 +126,29 @@ namespace ApiConsumer
             if (token != null && listbox.SelectedIndex != -1)
             {
                 Device newDev = devices.ToList()[listbox.SelectedIndex];
+                newDev.DescriptionTabData = actualDeviceTabData;
 
-                await restserviceDev.Post(newDev);
+                await restserviceDev.Put(newDev.Id, newDev);
             }
+
+            await GetDevices();
         }
 
 
         private void listbox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            
+            if (listbox.SelectedIndex == -1)
+                return;
+            DescriptionTabData original = devices.ToList()[listbox.SelectedIndex].DescriptionTabData;
+            actualDeviceTabData = new DescriptionTabData()
+            {
+                Description = original.Description,
+                Example = original.Example,
+                Id = original.Id,
+                Name = original.Name,
+                ShortDescription = original.ShortDescription
+            };
+            dataStack.DataContext = actualDeviceTabData;
         }
     }
 }

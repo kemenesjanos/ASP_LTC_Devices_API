@@ -57,7 +57,7 @@ namespace ApiEndpoint.Controllers
         [HttpPut("{oldid}")]
         public void UpdateDevice(string oldid, [FromBody] Device item)
         {
-            if (Contains(oldid))
+            if (Contains(oldid) && (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == GetDevice(oldid).UserName || this.User.IsInRole("Admin")))
             {
                 logic.UpdateDevice(oldid, item);
             }

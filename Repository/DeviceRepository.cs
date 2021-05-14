@@ -12,6 +12,8 @@ namespace Repository
         DeviceContext context = new DeviceContext();
         public void Add(Device item)
         {
+            item.Id = null;
+            item.DescriptionTabData.Id = null;
             context.Devices.Add(item);
             context.SaveChanges();
         }

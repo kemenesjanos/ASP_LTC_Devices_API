@@ -27,7 +27,6 @@ namespace ApiConsumer
         private string token;
         private IEnumerable<Device> devices = new List<Device>();
         private RestService restserviceDev;
-        private string currentUserName = "";
 
         public MainWindow()
         {
@@ -59,7 +58,6 @@ namespace ApiConsumer
                 });
 
                 token = tvm.Token;
-                currentUserName = pw.UserName;
                 restserviceDev = new RestService("https://localhost:7766/", "/Device", token);
 
                 GetDevices();
@@ -110,8 +108,7 @@ namespace ApiConsumer
         {
             Device newDevice = new Device()
             {
-                DescriptionTabData = new DescriptionTabData() { Name = "New Device" },
-                UserName = currentUserName
+                DescriptionTabData = new DescriptionTabData() { Name = "New Device" }
             };
 
             if(token != null)
@@ -136,8 +133,9 @@ namespace ApiConsumer
         {
             if (token != null && listbox.SelectedIndex != -1)
             {
-                string copyId = devices.ToList()[listbox.SelectedIndex].Id;
-                await restserviceDev.Post(copyId);
+                Device copyDev = devices.ToList()[listbox.SelectedIndex];
+                copyDev.DescriptionTabData.Name += "_copy";
+                await restserviceDev.Post(copyDev);
             }
 
            await GetDevices();

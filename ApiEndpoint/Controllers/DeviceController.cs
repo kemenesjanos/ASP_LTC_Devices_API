@@ -1,10 +1,12 @@
 ﻿using Logic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ApiEndpoint.Controllers
@@ -26,14 +28,17 @@ namespace ApiEndpoint.Controllers
         [HttpDelete("{uid}")]
         public void DeleteDevice(string uid)
         {
-            //TODO: User kezelés
-            logic.DeleteDevice(uid);
+            if(this.User.FindFirstValue(ClaimTypes.NameIdentifier) == GetDevice(uid).UserName || this.User.IsInRole("Admin"))
+            {
+                logic.DeleteDevice(uid);
+            }
         }
 
         [HttpGet("{uid}")]
         public Device GetDevice(string uid)
         {
-            return logic.GetDevice(uid);
+                return logic.GetDevice(uid);
+            
         }
 
         [HttpGet]
@@ -45,9 +50,8 @@ namespace ApiEndpoint.Controllers
         [HttpPost]
         public void AddDevice([FromBody] Device item)
         {
-            Console.WriteLine(User.Identity.Name);
+            item.UserName = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             logic.AddDevice(item);
-            
         }
 
         [HttpPut("{oldid}")]
